@@ -1,6 +1,6 @@
 class SignupsController < ApplicationController
   
-  before_filter :authenticate_user!, :except => [:show, :index]
+#  before_filter :authenticate_user!, :except => [:show, :index]
   
   # GET /signups
   # GET /signups.json
