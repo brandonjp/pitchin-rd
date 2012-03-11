@@ -1,0 +1,30 @@
+%div.six.columns
+  = form_for [@event, @signup] do |f|
+    -if @signup.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@signup.errors.count, "error")} prohibited this signup from being saved:"
+        %ul
+          - @signup.errors.full_messages.each do |msg|
+            %li= msg
+
+    %p
+      = f.label "Your name"
+      = f.text_field :person
+    %p
+      = f.label "Name of the item you're bringing"
+      = f.text_field :name
+    %p
+      = f.label "How many you're bringing"
+      = f.text_field :qty, :size => 4
+    %p
+      = f.label "if needed, specify the units (like 'boxes' or 'trays' or 'loaves')"
+      = f.text_field :units
+    %p
+      = f.label "Any additional comments?"
+      = f.text_area :comments
+
+    .actions
+      = f.submit 'Save'
+
+%div.six.columns
+  %p put map search results here

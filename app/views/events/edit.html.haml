@@ -1,0 +1,11 @@
+%h1 Editing event
+
+%div.row
+  = render 'form'
+
+%div.row
+  = link_to 'Destroy', @event, :confirm => 'This will delete the event and all associated items. Are you sure?', :method => :delete
+  \|
+  = link_to 'Show', @event
+  \|
+  = link_to 'Back', events_path

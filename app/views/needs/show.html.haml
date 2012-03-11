@@ -1,0 +1,37 @@
+%h1
+  %small
+    = link_to 'back to the needs', needs_path
+    |
+    = link_to 'edit this need', edit_need_path(@need)
+
+  = @need.name
+
+  %small
+    = link_to "vote down", vote_down_need_path(@need)
+    |
+    = link_to "clear your vote", unvote_need_path(@need)
+    |
+    = link_to "vote up", vote_up_need_path(@need)
+
+%div.row
+  %ul
+    - @need.attributes.each do |key,val|
+      %li
+        %b= key
+        %pre= val
+    %li
+      %b points
+      %pre= @need.votes_point
+
+%div.row
+  %dl
+  - @need.comments_list.each do |comment|
+    %dt= "#{User.find(comment.author_id).name} @ #{comment.datetime}"
+    %dd= comment.text
+
+%div.row
+  - if !user_signed_in?
+    %div#error_explanation 
+    = link_to('sign in to leave comment', new_user_session_path)
+  - else
+    = link_to "leave a comment", new_need_comment_path(:need_id => @need.id.to_s)

@@ -1,0 +1,27 @@
+%div.six.columns
+  = form_for @item do |f|
+    -if @item.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@item.errors.count, "error")} prohibited this item from being saved:"
+        %ul
+          - @item.errors.full_messages.each do |msg|
+            %li= msg
+
+    %p
+      = f.label "Name of the item you're bringing"
+      = f.text_field :name
+    %p
+      = f.label "How many you're bringing"
+      = f.text_area :qty
+    %p
+      = f.label "if needed, specify the units (like 'boxes' or 'trays' or 'loaves')"
+      = f.text_field :units
+    %p
+      = f.label "Any additional notes?"
+      = f.text_area :notes
+
+    .actions
+      = f.submit 'Save'
+
+%div.six.columns
+  %p put map search results here

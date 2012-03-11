@@ -1,0 +1,37 @@
+%h1
+  %small
+    = link_to 'back to the signups', signups_path
+    |
+    = link_to 'edit this signup', edit_signup_path(@signup)
+
+  = @signup.name
+
+  %small
+    = link_to "vote down", vote_down_signup_path(@signup)
+    |
+    = link_to "clear your vote", unvote_signup_path(@signup)
+    |
+    = link_to "vote up", vote_up_signup_path(@signup)
+
+%div.row
+  %ul
+    - @signup.attributes.each do |key,val|
+      %li
+        %b= key
+        %pre= val
+    %li
+      %b points
+      %pre= @signup.votes_point
+
+%div.row
+  %dl
+  - @signup.comments_list.each do |comment|
+    %dt= "#{User.find(comment.author_id).name} @ #{comment.datetime}"
+    %dd= comment.text
+
+%div.row
+  - if !user_signed_in?
+    %div#error_explanation 
+    = link_to('sign in to leave comment', new_user_session_path)
+  - else
+    = link_to "leave a comment", new_signup_comment_path(:signup_id => @signup.id.to_s)

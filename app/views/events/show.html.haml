@@ -1,0 +1,59 @@
+%h1
+  %small= link_to '<< back to all events', events_path
+  = @event.name
+  %small= link_to 'edit this event >>', edit_event_path(@event)
+
+%div.row
+  %ul
+    - @event.attributes.each do |key,val|
+      %li
+        %b= key
+        %pre= val
+
+- if !@event.needs.empty?
+  %div.row
+    %h3 All items needed
+    %table
+      %tr
+        %th
+        - @event.needs.first.attributes.each do |key,val|
+          %th= key
+        %th
+
+      - @event.needs.each do |need|
+        %tr
+          %td= link_to "Edit", edit_event_need_path(@event, need.id)
+          - need.attributes.each do |key,val|
+            %td= val
+          %td= link_to 'Destroy', [@event,need], :confirm => 'This item will be deleted. Are you sure?', :method => :delete
+- else
+  %h3 There are no items added to this event yet
+
+%div.row
+  - if !user_signed_in?
+    %div#error_explanation 
+    = link_to('sign in to add new items needed', new_user_session_path)
+  - else
+    = link_to "Add a new item needed", new_event_need_path(:event_id => @event.id.to_s)
+
+- if !@event.signups.empty?
+  %div.row
+    %h3 All signups
+    %table
+      %tr
+        %th
+        - @event.signups.first.attributes.each do |key,val|
+          %th= key
+        %th
+
+      - @event.signups.each do |signup|
+        %tr
+          %td= link_to "Edit", edit_event_signup_path(@event, signup.id)
+          - signup.attributes.each do |key,val|
+            %td= val
+          %td= link_to 'Destroy', [@event,signup], :confirm => 'This signup will be deleted. Are you sure?', :method => :delete
+- else
+  %h3 There are no signups for this event yet
+
+%div.row
+  = link_to "Sign up to bring something", new_event_signup_path(:event_id => @event.id.to_s)

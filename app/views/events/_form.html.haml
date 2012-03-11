@@ -1,0 +1,30 @@
+%div.six.columns
+  = form_for @event do |f|
+    -if @event.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@event.errors.count, "error")} prohibited this event from being saved:"
+        %ul
+          - @event.errors.full_messages.each do |msg|
+            %li= msg
+
+    %p
+      = f.label "Event name"
+      = f.text_field :name
+    %p
+      = f.label "Location"
+      = f.text_field :location
+    %p
+      = f.label "Date"
+      = f.date_select :date
+    %p
+      = f.label "Event Theme"
+      = f.text_field :theme
+    %p
+      = f.label "Description/notes"
+      = f.text_area :notes
+
+    .actions
+      = f.submit 'Save'
+
+%div.six.columns
+  %p put map search results here

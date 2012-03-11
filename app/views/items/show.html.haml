@@ -1,0 +1,37 @@
+%h1
+  %small
+    = link_to 'back to the items', items_path
+    |
+    = link_to 'edit this item', edit_item_path(@item)
+
+  = @item.name
+
+  %small
+    = link_to "vote down", vote_down_item_path(@item)
+    |
+    = link_to "clear your vote", unvote_item_path(@item)
+    |
+    = link_to "vote up", vote_up_item_path(@item)
+
+%div.row
+  %ul
+    - @item.attributes.each do |key,val|
+      %li
+        %b= key
+        %pre= val
+    %li
+      %b points
+      %pre= @item.votes_point
+
+%div.row
+  %dl
+  - @item.comments_list.each do |comment|
+    %dt= "#{User.find(comment.author_id).name} @ #{comment.datetime}"
+    %dd= comment.text
+
+%div.row
+  - if !user_signed_in?
+    %div#error_explanation 
+    = link_to('sign in to leave comment', new_user_session_path)
+  - else
+    = link_to "leave a comment", new_item_comment_path(:item_id => @item.id.to_s)

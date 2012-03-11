@@ -1,0 +1,25 @@
+%h1 
+  The 8:30 Locations
+  %small
+    = link_to '+ Add New Location', new_need_path
+
+%table
+  %tr
+    %th Votes
+    %th Name
+    %th Address
+    %th Map
+    %th
+    %th
+
+  - @needs.each do |need|
+    %tr
+      %td
+        = link_to "Vote down", vote_down_need_path(need)
+        = need.votes_point
+        = link_to "Vote up", vote_up_need_path(need)
+      %td= link_to need.name, need
+      %td= truncate(need.address, :length => 44, :separator => ', ')
+      %td= link_to('Map', need.map_url) if !need.map_url.blank?
+      %td= link_to 'Edit', edit_need_path(need)
+      %td= link_to( need.active ? "ACTIVE" : "inactive", switch_status_need_path(need))

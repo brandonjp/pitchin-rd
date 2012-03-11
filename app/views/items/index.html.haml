@@ -1,0 +1,25 @@
+%h1 
+  The 8:30 Locations
+  %small
+    = link_to '+ Add New Location', new_item_path
+
+%table
+  %tr
+    %th Votes
+    %th Name
+    %th Address
+    %th Map
+    %th
+    %th
+
+  - @items.each do |item|
+    %tr
+      %td
+        = link_to "Vote down", vote_down_item_path(item)
+        = item.votes_point
+        = link_to "Vote up", vote_up_item_path(item)
+      %td= link_to item.name, item
+      %td= truncate(item.address, :length => 44, :separator => ', ')
+      %td= link_to('Map', item.map_url) if !item.map_url.blank?
+      %td= link_to 'Edit', edit_item_path(item)
+      %td= link_to( item.active ? "ACTIVE" : "inactive", switch_status_item_path(item))

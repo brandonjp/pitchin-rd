@@ -1,0 +1,25 @@
+%h1 
+  The 8:30 Locations
+  %small
+    = link_to '+ Add New Location', new_signup_path
+
+%table
+  %tr
+    %th Votes
+    %th Name
+    %th Address
+    %th Map
+    %th
+    %th
+
+  - @signups.each do |signup|
+    %tr
+      %td
+        = link_to "Vote down", vote_down_signup_path(signup)
+        = signup.votes_point
+        = link_to "Vote up", vote_up_signup_path(signup)
+      %td= link_to signup.name, signup
+      %td= truncate(signup.address, :length => 44, :separator => ', ')
+      %td= link_to('Map', signup.map_url) if !signup.map_url.blank?
+      %td= link_to 'Edit', edit_signup_path(signup)
+      %td= link_to( signup.active ? "ACTIVE" : "inactive", switch_status_signup_path(signup))
