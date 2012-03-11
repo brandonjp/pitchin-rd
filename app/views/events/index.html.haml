@@ -3,17 +3,18 @@
   %small
     = link_to '+ Add New Event', new_event_path
 
-%table
-  %tr
-    %th
-    - @events.first.attributes.each do |key,val|
-      %th= key
-    %th
-
-  - @events.each do |event|
+- if !@events.empty?
+  %table
     %tr
-      %td= link_to 'View', event
-      - event.attributes.each do |key,val|
-        %td= val
-      %td= link_to 'Edit', edit_event_path(event)
+      %th
+      - @events.first.attributes.each do |key,val|
+        %th= key
+      %th
+
+    - @events.each do |event|
+      %tr
+        %td= link_to 'View', event
+        - event.attributes.each do |key,val|
+          %td= val
+        %td= link_to 'Edit', edit_event_path(event)
         
