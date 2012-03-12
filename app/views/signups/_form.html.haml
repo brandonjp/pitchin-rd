@@ -38,5 +38,30 @@
     .actions
       = f.submit 'Save'
 
-%div.six.columns
-  %p put map search results here
+- if !params[:need].nil?
+  %div.six.columns
+    - if !@event.needs.empty?
+      %h4 All items needed
+      %table
+        %tr
+          %th Item Needed
+          %th Qty
+          %th 
+          %th Comments
+          %th 
+
+        - @event.needs.each do |need|
+          - @collected = 0
+          - @signups = @event.signups.where(:name=>need.name)
+          - @signups.each do |signupqty|
+            - @collected = @collected + signupqty.qty.to_i
+          - @remaining = need.qty.to_i - @collected
+
+          %tr
+            %td= need.name
+            %td= @remaining
+            %td= need.units
+            %td= need.comments
+            %td= link_to 'Bring It!', new_event_signup_path(:event_id => @event.id.to_s, :need => {:name => need.name, :qty => @remaining, :units => need.units, :comments => need.comments})
+    - else
+      %h4 There are no items added to this event yet
