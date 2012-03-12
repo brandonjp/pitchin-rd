@@ -10,18 +10,30 @@
     %p
       = f.label "Your name"
       = f.text_field :person
-    %p
-      = f.label "Name of the item you're bringing"
-      = f.text_field :name
-    %p
-      = f.label "How many you're bringing"
-      = f.text_field :qty, :size => 4
-    %p
-      = f.label "if needed, specify the units (like 'boxes' or 'trays' or 'loaves')"
-      = f.text_field :units
+
+    - if params[:need].nil?
+      %p
+        = f.label "Name of the item you're bringing"
+        = f.text_field :name, :value => params[:need].nil? ? "" : params[:need]['name']
+      %p
+        = f.label "How many you're bringing"
+        = f.text_field :qty, :size => 4, :value => params[:need].nil? ? "" : params[:need]['qty']
+      %p
+        = f.label "if needed, specify the units (like 'boxes' or 'trays' or 'loaves')"
+        = f.text_field :units, :value => params[:need].nil? ? "" : params[:need]['units']
+
+    - else
+      %p
+        = f.label "How many #{params[:need]['name']} are you bringing?"
+        = f.text_field :qty, :size => 4, :value => params[:need].nil? ? "" : params[:need]['qty']
+        = params[:need].nil? ? "" : params[:need]['units']
+        = f.hidden_field :name, :value => params[:need].nil? ? "" : params[:need]['name']
+        = f.hidden_field :units, :value => params[:need].nil? ? "" : params[:need]['units']
+
     %p
       = f.label "Any additional comments?"
       = f.text_area :comments
+  
 
     .actions
       = f.submit 'Save'

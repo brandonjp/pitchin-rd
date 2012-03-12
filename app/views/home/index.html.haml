@@ -1,3 +1,62 @@
-%h3 Home
-- @users.each do |user|
-  %p User: #{link_to user.name, user}
+%h3 Our Next Red Door Meal
+
+%h1
+  = @event.name
+  %small= "on #{@event.date} at #{@event.location}"
+%hr
+%div.row
+  %ul
+    %li= "Theme: #{@event.theme}"
+    %li= "Notes: #{@event.notes}"
+%hr
+%div.row
+  - if !@event.needs.empty?
+    %h4 All items needed
+    %table
+      %tr
+        %th Item Needed
+        %th Qty
+        %th 
+        %th Comments
+        %th 
+
+      - @event.needs.each do |need|
+        - @signups = @event.signups.where(:name=>need.name)
+        - @signups.each do |signupqty|
+          - @remaining = need.qty.to_i + signupqty.qty.to_i
+        - @remaining = @signup.nil? ? need.qty : need.qty-@collected
+        %tr
+          %td= need.name
+          %td= @remaining
+          %td= need.units
+          %td= need.comments
+          %td= link_to 'Bring It!', new_event_signup_path(:event_id => @event.id.to_s, :need => {:name => need.name, :qty => @remaining, :units => need.units, :comments => need.comments})
+  - else
+    %h4 There are no items added to this event yet
+
+%div.row
+  - if user_signed_in?
+    = link_to "Add a new item needed", new_event_need_path(:event_id => @event.id.to_s)
+%hr
+%div.row
+  - if !@event.signups.empty?
+    %h4 People and items currently signed up...
+    %table
+      %tr
+        %th
+        - @event.signups.first.attributes.each do |key,val|
+          %th= key
+        %th
+
+      - @event.signups.each do |signup|
+        %tr
+          %td= link_to "Edit", edit_event_signup_path(@event, signup.id)
+          - signup.attributes.each do |key,val|
+            %td= val
+          %td= link_to 'Destroy', [@event,signup], :confirm => 'This signup will be deleted. Are you sure?', :method => :delete
+  - else
+    %h4 There are no signups for this event yet
+
+%div.row
+  %h3
+    = link_to "Sign up to bring something!", new_event_signup_path(:event_id => @event.id.to_s)
