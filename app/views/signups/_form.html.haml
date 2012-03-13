@@ -13,18 +13,24 @@
 
     - if params[:need].nil?
       %p
-        = f.label "Name of the item you're bringing"
-        = f.text_field :name, :value => params[:need].nil? ? "" : params[:need]['name']
+        = f.label "The item you're bringing"
+        - @needs_arry = []
+        - @event.needs.each do |need|
+          - @collected = 0
+          - @signups = @event.signups.where(:name=>need.name)
+          - @signups.each do |signupqty|
+            - @collected = @collected + signupqty.qty.to_i
+          - @remaining = need.qty.to_i - @collected
+          - @needs_arry.push([ need.name+" ("+@remaining.to_s+" "+need.units+" needed)", need.name ]) unless @remaining==0
+        
+        = f.select(:name, @needs_arry, { :include_blank => true })
       %p
         = f.label "How many you're bringing"
         = f.text_field :qty, :size => 4, :value => params[:need].nil? ? "" : params[:need]['qty']
-      %p
-        = f.label "if needed, specify the units (like 'boxes' or 'trays' or 'loaves')"
-        = f.text_field :units, :value => params[:need].nil? ? "" : params[:need]['units']
 
     - else
       %p
-        = f.label "How many #{params[:need]['name']} are you bringing?"
+        = f.label "How many #{params[:need]['name'].pluralize} are you bringing?"
         = f.text_field :qty, :size => 4, :value => params[:need].nil? ? "" : params[:need]['qty']
         = params[:need].nil? ? "" : params[:need]['units']
         = f.hidden_field :name, :value => params[:need].nil? ? "" : params[:need]['name']
@@ -38,30 +44,5 @@
     .actions
       = f.submit 'Save'
 
-- if !params[:need].nil?
-  %div.six.columns
-    - if !@event.needs.empty?
-      %h4 All items needed
-      %table
-        %tr
-          %th Item Needed
-          %th Qty
-          %th 
-          %th Comments
-          %th 
-
-        - @event.needs.each do |need|
-          - @collected = 0
-          - @signups = @event.signups.where(:name=>need.name)
-          - @signups.each do |signupqty|
-            - @collected = @collected + signupqty.qty.to_i
-          - @remaining = need.qty.to_i - @collected
-
-          %tr
-            %td= need.name
-            %td= @remaining
-            %td= need.units
-            %td= need.comments
-            %td= link_to 'Bring It!', new_event_signup_path(:event_id => @event.id.to_s, :need => {:name => need.name, :qty => @remaining, :units => need.units, :comments => need.comments})
-    - else
-      %h4 There are no items added to this event yet
+%div.six.columns
+  = render 'items/needed'

@@ -1,0 +1,18 @@
+%div.row
+  - if !@event.signups.empty?
+    %h4 People and items currently signed up...
+    %table
+      - @event.signups.each do |signup|
+        - @units_from_need = @event.needs.where(:name=>signup.name).first
+        %tr
+          %td= signup.person
+          %td= signup.name
+          %td= pluralize(signup.qty, @units_from_need.units) unless @units_from_need.nil?
+          %td= signup.comments
+          - if user_signed_in?
+            %td
+              = link_to "Edit", edit_event_signup_path(@event, signup.id)
+              \/
+              = link_to 'Destroy', [@event,signup], :confirm => 'This signup will be deleted. Are you sure?', :method => :delete
+  - else
+    %h4 There are no signups for this event yet

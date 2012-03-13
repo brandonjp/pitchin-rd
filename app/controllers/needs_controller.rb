@@ -50,7 +50,7 @@ class NeedsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: 'Need was successfully created.' }
+        format.html { redirect_to :root, notice: 'Need was successfully created.' }
         format.json { render json: @event, status: :created, need: @need }
       else
         format.html { render action: "new" }
@@ -67,7 +67,7 @@ class NeedsController < ApplicationController
 
     respond_to do |format|
       if @need.update_attributes(params[:need])
-        format.html { redirect_to @event, notice: 'Need was successfully updated.' }
+        format.html { redirect_to :root, notice: 'Need was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -84,37 +84,9 @@ class NeedsController < ApplicationController
     @need.destroy
 
     respond_to do |format|
-      format.html { redirect_to @event }
+      format.html { redirect_to :root }
       format.json { head :ok }
     end
   end
 
-  def unvote
-    @need = Need.find(params[:id])
-    current_user.unvote(@need)
-    redirect_to need_url(params[:id]), :notice => "Vote has been reset."
-  end
-
-  def vote_down
-    @need = Need.find(params[:id])
-    current_user.vote(@need, :down)
-    redirect_to need_url(params[:id]), :notice => "Vote down is successfully submitted."
-  end
-
-  def vote_up
-    @need = Need.find(params[:id])
-    current_user.vote(@need, :up)
-    redirect_to need_url(params[:id]), :notice => "Vote up is successfully submitted."
-  end
-  
-  def switch_status
-    @need = Need.find(params[:id])
-    if @need.active?
-      @need.active = false
-    else
-      @need.active = true
-    end
-    @need.save
-    redirect_to needs_url
-  end
 end

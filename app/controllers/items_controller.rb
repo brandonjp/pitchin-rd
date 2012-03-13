@@ -47,7 +47,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        format.html { redirect_to @item, notice: 'Item was successfully created.' }
+        format.html { redirect_to root_url, notice: 'Item was successfully created.' }
         format.json { render json: @item, status: :created, item: @item }
       else
         format.html { render action: "new" }
@@ -81,8 +81,7 @@ class ItemsController < ApplicationController
     @item.destroy
 
     respond_to do |format|
-      format.html { redirect_to items_url }
-      format.json { head :ok }
+      redirect_to :root
     end
   end
 

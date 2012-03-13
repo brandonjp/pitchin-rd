@@ -1,0 +1,34 @@
+%div.row
+  - if !@event.needs.empty?
+    %h4 Items still needed
+    %table
+      %tr
+        %th Item Needed
+        %th Qty
+        %th Comments
+        %th 
+
+      - @event.needs.each do |need|
+        - @collected = 0
+        - @signups = @event.signups.where(:name=>need.name)
+        - @signups.each do |signupqty|
+          - @collected = @collected + signupqty.qty.to_i
+        - @remaining = need.qty.to_i - @collected
+        
+        %tr{:class => "#{@remaining==0 ? 'inactive' : 'active'}"}
+          %td= need.name
+          %td= pluralize(@remaining, need.units)
+          %td= need.comments
+          - if !user_signed_in?
+            %td= link_to "I'll Bring It!", new_event_signup_path(:event_id => @event.id.to_s, :need => {:name => need.name, :qty => @remaining, :units => need.units, :comments => need.comments}) unless @remaining==0 
+          - else
+            %td
+              = link_to "Edit", edit_event_need_path(@event, need.id)
+              \/
+              = link_to 'Destroy', [@event,need], :confirm => 'This item will be deleted. Are you sure?', :method => :delete
+  - else
+    %h4 There are no items added to this event yet
+
+%div.row
+  - if user_signed_in?
+    = link_to "Add a new item needed", new_event_need_path(:event_id => @event.id.to_s)

@@ -50,7 +50,7 @@ class SignupsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: 'Signup was successfully created.' }
+        format.html { redirect_to :root, notice: 'Signup was successfully created.' }
         format.json { render json: @event, status: :created, signup: @signup }
       else
         format.html { render action: "new" }
@@ -67,7 +67,7 @@ class SignupsController < ApplicationController
 
     respond_to do |format|
       if @signup.update_attributes(params[:signup])
-        format.html { redirect_to @event, notice: 'Signup was successfully updated.' }
+        format.html { redirect_to :root, notice: 'Signup was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -84,37 +84,9 @@ class SignupsController < ApplicationController
     @signup.destroy
 
     respond_to do |format|
-      format.html { redirect_to @event }
+      format.html { redirect_to :root }
       format.json { head :ok }
     end
   end
 
-  def unvote
-    @signup = Signup.find(params[:id])
-    current_user.unvote(@signup)
-    redirect_to signup_url(params[:id]), :notice => "Vote has been reset."
-  end
-
-  def vote_down
-    @signup = Signup.find(params[:id])
-    current_user.vote(@signup, :down)
-    redirect_to signup_url(params[:id]), :notice => "Vote down is successfully submitted."
-  end
-
-  def vote_up
-    @signup = Signup.find(params[:id])
-    current_user.vote(@signup, :up)
-    redirect_to signup_url(params[:id]), :notice => "Vote up is successfully submitted."
-  end
-  
-  def switch_status
-    @signup = Signup.find(params[:id])
-    if @signup.active?
-      @signup.active = false
-    else
-      @signup.active = true
-    end
-    @signup.save
-    redirect_to signups_url
-  end
 end
