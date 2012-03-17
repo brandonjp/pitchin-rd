@@ -1,24 +1,27 @@
-%h3 Our Next Red Door Meal
+- if @event.nil?
+  %h1 There are currently no events scheduled
+- else 
+  %h3 Our Next Red Door Meal
 
-%h1
-  = @event.name
-  %small= "on #{@event.date} at #{@event.location}"
+  %h1
+    = @event.name
+    %small= "on #{@event.date} at #{@event.location}"
 
-%hr
+  %hr
 
-%div.row
-  %ul
-    %li= "Theme: #{@event.theme}"
-    %li= "Notes: #{@event.notes}"
+  %div.row
+    %ul
+      %li= "Theme: #{@event.theme}"
+      %li= "Notes: #{@event.notes}"
 
-%hr
+  %hr
 
-= render 'items/needed'
+  = render 'items/needed'
 
-%hr
+  %hr
 
-= render 'items/signedup'
+  = render 'items/signedup'
 
-%div.row
-  %h3
-    = link_to "Sign up to bring something!", new_event_signup_path(:event_id => @event.id.to_s)
+  %div.row
+    %h3
+      = link_to "Sign up to bring something!", new_event_signup_path(:event_id => @event.id.to_s)
