@@ -11,5 +11,9 @@ class Event
   embeds_many :needs
   embeds_many :signups
 
+  def self.next_event
+    Event.all(sort: [[ :date, :asc ]], :conditions => {:date => Date.today.to_datetime..(Date.today+24).to_datetime}).first
+  end
+
 end
 

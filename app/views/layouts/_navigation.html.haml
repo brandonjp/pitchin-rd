@@ -1,14 +1,18 @@
-= link_to "Pitchin", root_path, :class => 'brand'
+
+
 %ul.nav
+
+  %li= link_to (image_tag "logo_door.png"), root_path, :class => "logo crop"
+  %li= link_to "Red Door Meals", root_path
+  
+  - if Event.next_event
+    %li= link_to "Next Event", root_path
+    %li= link_to "Bring Something", new_event_signup_path(:event_id => Event.next_event.id.to_s)
+
+
   - if user_signed_in?
-    %li
-      = link_to('Logout', destroy_user_session_path, :method=>'delete')
+    %li.admin.floatR= link_to 'Logout', destroy_user_session_path, :method=>'delete'
+    %li.admin.floatR= link_to 'Edit account', edit_user_registration_path
+    %li.admin.floatR= link_to 'All Events', events_path
   - else
-    %li
-      = link_to('Login', new_user_session_path)
-  - if user_signed_in?
-    %li
-      = link_to('Edit account', edit_user_registration_path)
-  - else
-    %li
-      = link_to('Sign up', new_user_registration_path)
+    %li.admin.floatR= link_to 'Admin', new_user_session_path

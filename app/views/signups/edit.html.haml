@@ -1,9 +1,9 @@
-%h1 Editing signup
+%h1 Editing signup entry
 
 %div.row
   = render 'form'
 
 %div.row
-  = link_to 'Destroy', [@event,@signup], :confirm => 'This will delete the signup and all associated events. Are you sure?', :method => :delete
+  = link_to 'Destroy', [@event,@signup], :confirm => 'This will delete the signup entry. Are you sure?', :method => :delete
   \|
   = link_to 'Show', @event

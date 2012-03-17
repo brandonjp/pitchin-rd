@@ -50,7 +50,7 @@ class SignupsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to :root, notice: 'Signup was successfully created.' }
+        format.html { redirect_to :root, notice: "That's it!  You're all signed up!" }
         format.json { render json: @event, status: :created, signup: @signup }
       else
         format.html { render action: "new" }
@@ -67,7 +67,7 @@ class SignupsController < ApplicationController
 
     respond_to do |format|
       if @signup.update_attributes(params[:signup])
-        format.html { redirect_to :root, notice: 'Signup was successfully updated.' }
+        format.html { redirect_to :root, notice: 'Your signup was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

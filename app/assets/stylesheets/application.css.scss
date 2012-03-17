@@ -1,3 +1,5 @@
+/* @override http://localhost:3000/assets/application.css?body=1 */
+
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -12,6 +14,9 @@
  *= require foundation
  *= require_tree .
 */
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300);
+
 .brand {
   float: left;
   padding-right: 8px;
@@ -35,4 +40,92 @@ ul.nav li {
 #flash_alert {
   background-color: #FCC;
   border: solid 1px #C66;
+}
+
+div#main h1, 
+div#main h2, 
+div#main h3, 
+div#main h4, 
+div#main h5, 
+div#main h6  {
+	font-family: "Open Sans Condensed", sans-serif;
+}
+
+header {
+	background-color: rgba(0,0,0,0.8);
+	display: block;
+	text-align: left;
+}
+
+header ul.nav {
+	display: block;
+	font-family: "Open Sans Condensed", sans-serif;
+}
+
+header ul.nav li {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 9px;
+	margin-bottom: 0;
+}
+
+header ul.nav li a {
+	display: block;
+	vertical-align: middle;
+	text-transform: uppercase;
+	font-weight: 500;
+	font-size: 220%;
+	color: #fff;
+	position: relative;
+}
+
+header ul.nav li a.logo.crop {
+	padding-left: 12px;
+	padding-right: 0px;
+}
+
+header ul.nav li a.logo.crop img {
+	width: 40px;
+	margin-bottom: -26px;
+}
+
+header ul.nav li.admin {
+	float: right;
+	vertical-align: bottom;
+}
+
+header ul.nav li.admin a {
+	font-size: 120%;
+	vertical-align: bottom;
+}
+
+div#container.container{
+	text-align: center;
+	display: block;
+}
+
+div#container > div#main {
+	display: inline-block;
+	text-align: left;
+}
+
+form {
+	text-align: left;
+}
+form input {
+	display: block;
+	margin: 0 0 12px 0;
+}
+
+form input[type=checkbox] {
+	display: inline-block;
+}
+
+form label {
+	display: inline-block;
+	font-weight: bold;
+}
+
+div.row table th {
+	text-align: center;
 }

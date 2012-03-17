@@ -1,9 +1,9 @@
-%h1 Editing need
+%h1 Editing needed item
 
 %div.row
   = render 'form'
 
 %div.row
-  = link_to 'Destroy', [@event,@need], :confirm => 'This will delete the need and all associated events. Are you sure?', :method => :delete
+  = link_to 'Destroy', [@event,@need], :confirm => 'This will delete the item. Are you sure?', :method => :delete
   \|
   = link_to 'Show', @event
