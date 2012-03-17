@@ -15,7 +15,7 @@
  *= require_tree .
 */
 
-@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700);
 
 .brand {
   float: left;
@@ -128,4 +128,9 @@ form label {
 
 div.row table th {
 	text-align: center;
+}
+
+div.row table th,
+div.row table td {
+	padding: 3px;
 }
